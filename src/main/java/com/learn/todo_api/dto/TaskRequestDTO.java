@@ -1,9 +1,6 @@
 package com.learn.todo_api.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 // Este DTO es para CREAR o ACTUALIZAR tareas
 // Solo contiene los campos que el cliente puede enviar
@@ -22,6 +19,7 @@ public class TaskRequestDTO {
 
     @Min(value = 1, message = "La prioridad mínima es 1")
     @Max(value = 5, message = "La prioridad máxima es 5")
+    @NotNull(message = "La prioridad no puede ser nula")
     private Integer priority;
 
     // === GETTERS Y SETTERS ===
