@@ -1,29 +1,33 @@
 package com.learn.todo_api.service;
 
-import com.learn.todo_api.dto.TaskRequestDTO;
 import com.learn.todo_api.dto.TaskResponseDTO;
-import com.learn.todo_api.dto.TaskUpdateDTO;
 import com.learn.todo_api.model.Task;
 import com.learn.todo_api.repository.TaskRepository;
 import com.learn.todo_api.utils.TaskMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service  // ← Le dice a Spring: "esto contiene lógica de negocio"
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
     // INYECCIÓN POR CONSTRUCTOR (la forma recomendada)
     // Spring ve que necesitas TaskRepository y te lo "inyecta"
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
+        this.taskMapper = taskMapper;
     }
 
     // Obtener todas las tareas
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<TaskResponseDTO> getAllTasks() {
+        return taskRepository.findAll()
+                .stream()
+                .map(taskMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
 
     // Obtener una tarea por ID

@@ -1,8 +1,5 @@
 package com.learn.todo_api.controlador;
 
-import com.learn.todo_api.dto.TaskRequestDTO;
-import com.learn.todo_api.dto.TaskResponseDTO;
-import com.learn.todo_api.dto.TaskUpdateDTO;
 import com.learn.todo_api.model.Task;
 import com.learn.todo_api.service.TaskService;
 import org.springframework.http.HttpStatus;

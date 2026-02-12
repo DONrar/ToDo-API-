@@ -22,7 +22,8 @@ public class Task {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    private Integer priority;
+    @Column(nullable = false)
+    private Integer priority = 3; // Default: prioridad media
     // Se ejecuta ANTES de guardar en BD
     @PrePersist
     protected void onCreate() {
