@@ -2,6 +2,8 @@ package com.learn.todo_api.service;
 
 import com.learn.todo_api.dto.TaskRequestDTO;
 import com.learn.todo_api.dto.TaskResponseDTO;
+import com.learn.todo_api.exceptions.BadRequestException;
+import com.learn.todo_api.exceptions.ResourceNotFoundException;
 import com.learn.todo_api.model.Task;
 import com.learn.todo_api.repository.TaskRepository;
 import com.learn.todo_api.utils.TaskMapper;
@@ -38,6 +40,10 @@ public class TaskService {
 
     // Crear nueva tarea
     public TaskResponseDTO createTask(TaskRequestDTO requestDTO) {
+
+        if( taskRepository.existsByTitle(requestDTO.getTitle())) {
+            throw new BadRequestException("Ya existe una tarea con el titulo: " + requestDTO.getTitle());
+        }
         Task task = taskMapper.toEntity(requestDTO);  // ← DTO → Entity
         Task savedTask = taskRepository.save(task);
         return taskMapper.toResponseDTO(savedTask);   // ← Entity → DTO
@@ -73,6 +79,6 @@ public class TaskService {
     // ═══════════════════════════════════════════════════════════
     private Task findTaskOrThrow(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tarea no encontrada con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Task", "id", id));
     }
 }

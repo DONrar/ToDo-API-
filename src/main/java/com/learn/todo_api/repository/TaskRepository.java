@@ -20,4 +20,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     // Métodos personalizados (Spring los implementa solo por el nombre)
     List<Task> findByCompleted(boolean completed);
     List<Task> findByTitleContainingIgnoreCase(String title);
+    boolean existsByTitle(String title);
 }
